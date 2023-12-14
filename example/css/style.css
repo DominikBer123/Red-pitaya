@@ -313,3 +313,96 @@ select {
     width: 150px;
     flex-grow: 0;
 }
+
+/* By moceradi */
+/*Color macro*/
+:root {
+    --red: #ff0000;
+    --nav_color: #62af3c; /*topnav*/
+    --gray_text: #a1bcc5;
+    --white: #ffffff;
+    --background: #154d30;
+    --content_background: #042e12;
+    --shadow: #5dff5180;
+    --dark_blue: #075072; /*buttons*/
+    --turkizna: #198f91;
+}
+html {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+}
+h1 {
+    font-size: 3rem;
+    color: black;
+}
+h2{
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--white);
+}
+.text { /*text*/
+    font-size: 1rem;
+    color: var(--gray_text);
+    font-weight: bold;
+}
+.topnav {
+    overflow: hidden;
+    background-color: var(--nav_color);
+}
+body {
+    margin: 0;
+    background: var(--background);
+    font-family: Montserrat, Arial, sans-serif;
+}
+.content {
+    padding: 10px;
+    max-width: 600px; /* //!!! */
+    margin: 0 auto;
+}
+.card {
+    background-color: var(--content_background);
+    box-shadow: 2px 2px 6px 1px var(--shadow);
+    padding-top:5px;
+    padding-bottom:10px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+}
+.buttonCard {
+    width:100%;
+    text-align: center;
+}
+.innerBtn {
+    display: inline-block;
+}
+.inputField {
+    margin: 6px;
+    margin-top: 0px;
+    background-color: #95e0e4;
+    height: 20px;
+}
+/* Plot */
+.body-bg {
+    background: #F3F4FA !important;
+}
+.content-area {
+    max-width: 1280px;
+    margin: 0 auto;
+}
+.box {
+    background-color: var(--content_background);
+    padding: 0px 0px; 
+    border-radius: 6px; 
+}
+.apexcharts-legend-series tspan:nth-child(3) {
+    font-weight: bold;
+    font-size: 50px;
+}
+.edit-on-codepen {
+    text-align: right;
+    width: 100%;
+    padding: 0 0px 0px; 
+    position: relative;
+    top: -30px;
+    cursor: pointer;
+}
+

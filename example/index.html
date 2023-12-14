@@ -1,12 +1,3 @@
-<!-- 
- *
- * Red Pitaya Stream service manager
- *
- * Author: Nikolay <n.danilyuk@integrasources.eu>
- *
- * (c) Red Pitaya  http://www.redpitaya.com
- *
--->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -34,34 +25,16 @@
     <script src="js/help-sm.js"></script>
     <script src="js/guiHandler.js"></script>
     <script src="js/sm.js"></script>
+
+    <!-- CHARTS -->
+    <script src="apexcharts.js"></script>
 </head>
 
 <body>
-    <div id="header">
+   <!--  <div id="header">
         <div id="description">&nbsp;</div>
     </div>
     <div class="full-content">
-        <div class="container-fluid">
-            <div class="navbar navbar-inverse" role="navigation">
-                <div class="container">
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                            <span class="sr-only">T</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand" href="/">
-                            <img class="back-btn" src="../assets/images/navigation_arrow_left.png">
-                        </a>
-                        <img class="logo" width=110 src="../assets/images/navigation_logo.png">
-                    </div>
-                    <div class="collapse navbar-collapse">
-                        <ul class="nav navbar-nav">
-                        </ul>
-                    </div>
-                </div>
-            </div>
             <div id="">
                 <div id="main">
                     <div>
@@ -107,6 +80,40 @@
                 </div>
             </div>
         </div>
+    </div> -->
+
+    <div class="topnav">
+        <h1>Strele detector by Močeradi</h1>
+        </div>
+        <div class="content">
+        <div class="card" >
+            <h2 class="collapseBtn">Values</h2>
+            <div class="collapsible">
+            <p class="text">Distance = <span id="distance_text"></span></p>
+            <p class="text">Light = <span id="light_text"></span></p>
+            </div>
+        </div>
+        
+        <div id="wrapper">
+            <div class="content-area">
+            <div class="container-fluid">
+                <div class="main">
+                <div class="card">
+                    <div id="linechart"> </div>
+                </div>     
+                </div>
+            </div>
+            </div>
+        </div>
+        </div> 
 </body>
+
+<script>
+
+
+    
+    
+</script>
+    
 
 </html>
