@@ -12,6 +12,7 @@ Note: Change the local_path !!!
 import subprocess
 from paramiko import SSHClient
 from scp import SCPClient
+from time import sleep
 
 # SCP file paths
 local_path = 'd:\\Red-Pitaya\\example'
@@ -22,6 +23,11 @@ scp_password = 'root'
 ssh_device = 'rp-f0aa7c.local'
 ssh_password = 'root'
 
+# Force make clean 
+#( Making sure make actually runs, but it takes more time. Disable if only making changes to the 
+# website: html, css, js.)
+FORCE_CLEAN = True
+
 # Remote commands
 remote_commands = [
   # Remove example folder in /opt/redpitaya/www/apps
@@ -29,10 +35,14 @@ remote_commands = [
   # Copy example folder from /root to /opt/redpitaya/www/apps
   'cd /opt/redpitaya/www/apps && cp -r /root/example ./',
   # List all files in /opt/redpitaya/www/apps/example
-  'cd example && ls',
+  'cd /opt/redpitaya/www/apps/example && ls',
   # Make example app
-  'cd example && make INSTALL_DIR=/opt/redpitaya'
+  'cd /opt/redpitaya/www/apps/example && make INSTALL_DIR=/opt/redpitaya'
 ]
+
+#insert make clean command if FORCE_CLEAN is True
+if FORCE_CLEAN:
+    remote_commands.insert(3, 'cd /opt/redpitaya/www/apps/example && make clean')
 
 # Run command in cmd
 def run_cmd(cmd):
@@ -44,7 +54,7 @@ def run_cmd(cmd):
 print('SSH connection to ', ssh_device)
 ssh = SSHClient()
 ssh.load_system_host_keys()
-ssh.connect('rp-f0aa7c.local', username='root', password=ssh_password, look_for_keys=False)
+ssh.connect(ssh_device, username='root', password=ssh_password, look_for_keys=False)
 
 # Copy files over SCP
 print("SCP from ", local_path, " to ", remote_path)
@@ -55,7 +65,8 @@ with SCPClient(ssh.get_transport()) as scp:
 for cmd in remote_commands:
     print('Running: ', cmd)
     stdin, stdout, stderr = ssh.exec_command(cmd)
-    print('Output gibberish: ', stdout.read().decode(), stderr.read().decode())
+    print(stdout.read().decode(), stderr.read().decode())
+    sleep(0.02)
 
 # Close SSH and SCP connections
 ssh.close()
