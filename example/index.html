@@ -32,82 +32,53 @@
 </head>
 
 <body>
-   <!--  <div id="header">
-        <div id="description">&nbsp;</div>
+  <!-- TOPNAV -->
+  <div class="topnav">
+    <h1>Strele detector by Močeradi</h1>
+  </div>
+
+  <!-- DISTANCE -->
+  <div class="content float_left">
+    <!-- text -->
+    <div class="card">
+      <h2>Distance</h2>
+      <p class="text"><span id="distance_text">/</span> km</p>
     </div>
-    <div class="full-content">
-            <div id="">
-                <div id="main">
-                    <div>
-                        <div>
-                            <div align="center" style="font-size: 18pt; color: lightgray;">
-                                <p>Example</p>
-                            </div>
-                        </div>
-                        <div>
-                            <div align="center">
-                                <div class="container_inline">
-                                    <div style="width: 80px;text-align: right;">TEXT:</div>
-                                    <div style="width: 250px;">
-                                        <input id="SS_STRING_P" type="text">
-                                    </div>
-                                </div>
-                                <div class="container_inline">
-                                    <div style="width: 80px;text-align: right;">NUMBER:</div>
-                                    <div style="width: 250px;">
-                                        <input id="SS_INT_P" type="text">
-                                    </div>
-                                </div>
-                                <div class="container_inline">
-                                    <div style="width: 80px;text-align: right;">BOOL:</div>
-                                    <div style="width: 250px;">
-                                        <select id="SS_BOOL_P" class="protocol" name="channels">
-                                            <option value="0">False</option>
-                                            <option value="1">True</option>                                                            
-                                        </select>
-                                    </div>
-                                </div>
+    <!-- graph -->
+    <div id="wrapper">
+      <div class="content-area">
+        <div class="container-fluid">
+            <div class="main">
+              <div class="card">
+                <div id="linechart1"> </div>
+              </div>     
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-                                <div class="container_inline">
-                                    <div style="width: 330px;height: 30px;">
-                                        <li class="buttons" id="PRESS_BUT" style="width: 120px;height: 30px">
-                                            <a href="#" id="a_run" style="">PRESS</a>
-                                        </li>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  <!-- LIGHT -->
+  <div class="content float_right">
+    <!-- text -->
+    <div class="card">
+      <h2>Light</h2>
+      <p class="text"><span id="light_text">/</span> lux</p>
+    </div>
+    <!-- graph -->
+    <div id="wrapper">
+      <div class="content-area">
+        <div class="container-fluid">
+            <div class="main">
+              <div class="card">
+                <div id="linechart2"> </div>
+              </div>     
             </div>
         </div>
-    </div> -->
+      </div>
+    </div>
+  </div>
 
-    <div class="topnav">
-        <h1>Strele detector by Močeradi</h1>
-        </div>
-        <div class="content">
-        <div class="card" >
-            <h2 class="collapseBtn">Values</h2>
-            <div class="collapsible">
-            <p class="text">Distance = <span id="distance_text"></span></p>
-            <p class="text">Light = <span id="light_text"></span></p>
-            </div>
-        </div>
-        
-        <div id="wrapper">
-            <div class="content-area">
-            <div class="container-fluid">
-                <div class="main">
-                <div class="card">
-                    <div id="linechart"> </div>
-                </div>     
-                </div>
-            </div>
-            </div>
-        </div>
-        </div> 
 </body>
-   
-
+  
 </html>

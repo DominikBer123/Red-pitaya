@@ -1,13 +1,10 @@
 
 /**************************************************************************************************/
-/*                                        CHARTS                                                   */
+/*                                        CHARTS                                                  */
 /**************************************************************************************************/
 
 //Iteration of graph data
 var i = 0;
-
-//Current parameter value to be displayed on the chart
-var chartVal = 0;
 
 //Data variables
 var distance = 0;
@@ -16,20 +13,23 @@ var light = 0;
 //PLOT settings
 var updateInterval = 1000; //ms
 var updateXAxis = updateInterval;
-var xAxisRange = 60*1000; //ms => 60s
+var xAxisRange = 120*1000; //ms = X * 1000 ms = X s
 
-//Time variables
-var d = new Date();
-var startTime = 0;
+
+// Test mode -> Chart data will be generated randomly instead of getting data from the hardware
+const TEST_MODE = false;
 
 /*------------------------------ NEW DATA (periodical)--------------------------------------------*/
 function getNewData()
 {
   //Get data from sm.js
-  distance = getSMGlobalDistance();
-  light = getSMGlobalLight();
-
-  chartVal = distance;
+  if (TEST_MODE == false) {
+    distance = getSMGlobalDistance();
+    light = getSMGlobalLight();
+  } else {
+    distance = Math.floor(Math.random() * 100);
+    light = Math.floor(Math.random() * 100);
+  }
 
   //Change view values according to received data
   document.getElementById("distance_text").innerHTML = distance;
@@ -43,8 +43,14 @@ window.setInterval(function () {
 
 
 /*--------------------------------- CHART DATA ---------------------------------------------------*/
-function getNewChartData() {
-  return chartVal;
+function getNewChartData(chartNum) {
+  if (chartNum == 1) {
+    return distance;
+  } else if (chartNum == 2) {
+    return light;
+  } else {
+    return 0;
+  }
 }
 
 /*------------------------------- OTHER FUNCTIONS ------------------------------------------------*/
@@ -54,6 +60,7 @@ function generateMinuteWiseTimeSeries(baseval, count) {
   var series = [];
   while (i < count) {
     var x = baseval;
+    x += 3600000; // Add 1 hour for UTC+1 (3600000 ms)
     var y = i;
     series.push([x, y]);
     baseval += updateXAxis; //300000;
@@ -63,6 +70,11 @@ function generateMinuteWiseTimeSeries(baseval, count) {
 }
 
 /*----------------------- CHART SETTINGS ---------------------------------------------------------*/
+//Multiple elements if there are multiple lines in the chart
+colorPalette = ["#FCCF31", "#17ead9", "#f02fc2"];
+strokeWidth = 2;
+gradientToColors = ["#f21111", "#6078ea", "#6094ea"];
+
 window.Apex = {
   chart: {
     foreColor: "#fff",
@@ -70,9 +82,9 @@ window.Apex = {
       show: false
     }
   },
-  colors: ["#FCCF31", "#17ead9", "#f02fc2"],
+  colors: colorPalette,
   stroke: {
-    width: 2
+    width: strokeWidth
   },
   dataLabels: {
     enabled: false
@@ -91,16 +103,15 @@ window.Apex = {
   fill: {
     type: "gradient",
     gradient: {
-      gradientToColors: ["#F55555", "#6078ea", "#6094ea"]
+      gradientToColors: gradientToColors,
+      shadeIntensity: 1,
+      inverseColors: true,
+      stops: [0, 80, 100],
+      type: "vertical"
     }
   },
   tooltip: {
     theme: "dark",
-    x: {
-      /* formatter: function (val) {
-        return moment(new Date(val)).format("HH:mm:ss");
-      } */
-    }
   },
   yaxis: {
     decimalsInFloat: 2,
@@ -111,9 +122,10 @@ window.Apex = {
   }
 };
 
-var optionsLine = {
+var optionsLine1 = {
   chart: {
     height: 350,
+    width: 500,
     type: "line",
     stacked: true,
     animations: {
@@ -151,7 +163,6 @@ var optionsLine = {
       name: "Distance",
       data: generateMinuteWiseTimeSeries(
         new Date().getTime(),
-        //startTime,
         6
       )    
     }
@@ -161,7 +172,7 @@ var optionsLine = {
     range: xAxisRange 
   },
   title: {
-    text: "Position",
+    text: "Distance / km",
     align: "left",
     style: {
         fontSize: "15px"
@@ -180,17 +191,29 @@ var optionsLine = {
   }
 };
 
+//Copy of the object for the second chart
+var optionsLine2 = JSON.parse(JSON.stringify(optionsLine1));
+optionsLine2.series.name = "Light";
+optionsLine2.title.text = "Light / lux";
+
 /*-------------------------------- CHART ---------------------------------------------------------*/
 
-// Create chart on window load
-var chartLine;
+// Create charts on window load
+var chartLine1;
+var chartLine2;
 window.onload = function() {
-  chartLine = new ApexCharts(
-    document.querySelector("#linechart"),
-    optionsLine
+  chartLine1 = new ApexCharts(
+    document.querySelector("#linechart1"),
+    optionsLine1
   );
-  chartLine.render();
+  chartLine2 = new ApexCharts(
+    document.querySelector("#linechart2"),
+    optionsLine2
+  );
+  chartLine1.render();
+  chartLine2.render();
 }
+
 
 //Update chart data periodically
 window.setInterval(function () {
@@ -199,7 +222,8 @@ window.setInterval(function () {
   {
     for(k = 0; k < 6; k++)
     {
-      chartLine.w.config.series[0].data[k][1] = 0;
+      chartLine1.w.config.series[0].data[k][1] = 0;
+      chartLine2.w.config.series[0].data[k][1] = 0;
     }
   }
 
@@ -209,14 +233,24 @@ window.setInterval(function () {
   i++;
   //console.log("i: " + i + "   t: " + t);
 
-  chartLine.updateSeries([
+  chartLine1.updateSeries([
   {
     data: [
-      ...chartLine.w.config.series[0].data.slice(t),
-      [chartLine.w.globals.maxX + updateXAxis, getNewChartData()]
+      ...chartLine1.w.config.series[0].data.slice(t),
+      [chartLine1.w.globals.maxX + updateXAxis, getNewChartData(1)]
     ]
   }
   ]);
+
+  chartLine2.updateSeries([
+  {
+    data: [
+      ...chartLine2.w.config.series[0].data.slice(t),
+      [chartLine2.w.globals.maxX + updateXAxis, getNewChartData(2)]
+    ]
+  }
+  ]);
+
 }, updateInterval);
     
     
