@@ -1,3 +1,19 @@
+// Enable console.log of the received data
+PRINTOUT_ENABLE = false;
+
+//Global variables for passing to graph and text
+var distance_global = 0;
+var light_global = 0;
+
+// Functions for passing variables to graph and text
+function getSMGlobalDistance() {
+    return distance_global;
+} 
+
+function getSMGlobalLight() {
+    return light_global;
+}
+
 (function() {
     var originalAddClassMethod = jQuery.fn.addClass;
     var originalRemoveClassMethod = jQuery.fn.removeClass;
@@ -175,20 +191,22 @@
     //Handlers
     var signalsHandler = function() {
         if (SM.signalStack.length > 0) {
-            var sig_1 = SM.signalStack[0]["SS_SIGNAL_1"];
-            var sig_2 = SM.signalStack[0]["SS_SIGNAL_2"];
 
-            var sig_sum_1 = 0.0;
-            var sig_sum_2 = 0.0;
+            //DISTANCE
+            var distance_val = SM.signalStack[0]["DISTANCE_SIGNAL"];
+            //Copy to global variable
+            distance_global = distance_val.value[0];
 
-            for (var i = 0; i < sig_1.size; i++) {
-                sig_sum_1 += sig_1.value[i];
+            //LIGHT
+            var light_val = SM.signalStack[0]["LIGHT_SIGNAL"];
+            //Copy to global variable
+            light_global = light_val.value[0];
+
+            if(PRINTOUT_ENABLE == true) {
+                console.log("DISTANCE = " + distance_val.value[0]);
+                console.log("LIGHT = " + light_val.value[0]);
             }
 
-            for (var i = 0; i < sig_2.size; i++) {
-                sig_sum_2 += sig_2.value[i];
-            }
-            console.log("SIGNAL SUM1 = " + sig_sum_1 + "; SIGNAL SUM2 = " + sig_sum_2);
 
             SM.signalStack.splice(0, 1);
         }

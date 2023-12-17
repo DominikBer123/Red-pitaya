@@ -15,16 +15,19 @@ extern "C" {
 
 #define CH_SIGNAL_SIZE_DEFAULT      1000
 
+#define DISTANCE_NUM_OF_SAMPLES		1
+#define LIGHT_NUM_OF_SAMPLES		  1
+
 
 //Parameters
-
 CBooleanParameter 	ss_bool_p 	(	"SS_BOOL_P", 	CBaseParameter::RW, false,	0);
 CIntParameter		ss_int_p 	(	"SS_INT_P", 	CBaseParameter::RW, 100,	0,	1,65535);
 CStringParameter    ss_string_p	(	"SS_STRING_P",	CBaseParameter::RW, "",		0);
 
 //Singals
-CFloatSignal ss_signal_1("SS_SIGNAL_1", CH_SIGNAL_SIZE_DEFAULT, 0.0f);
-CFloatSignal ss_signal_2("SS_SIGNAL_2", CH_SIGNAL_SIZE_DEFAULT, 0.0f);
+//Type     Name            Name same in js    Num of samples           Default value        
+CIntSignal distance_signal("DISTANCE_SIGNAL", DISTANCE_NUM_OF_SAMPLES,    0);
+CIntSignal light_signal   ("LIGHT_SIGNAL",    LIGHT_NUM_OF_SAMPLES,       0);
 
 
 //Application description
@@ -76,19 +79,17 @@ int rp_get_signals(float ***s, int *sig_num, int *sig_len)
 void UpdateSignals(void)
 {
 
-	if (ss_signal_1.GetSize() != CH_SIGNAL_SIZE_DEFAULT) {
-    		ss_signal_1.Resize(CH_SIGNAL_SIZE_DEFAULT);
-	}
+	//DISTANCE SIGNAL
+	//Random value for testing
+	int randVal = rand()%100; //0-99
+	//Distance signal
+	distance_signal[0] = randVal;
 
-	if (ss_signal_2.GetSize() != CH_SIGNAL_SIZE_DEFAULT) {
-    		ss_signal_2.Resize(CH_SIGNAL_SIZE_DEFAULT);
-	}
-
-	for(int i = 0 ; i < CH_SIGNAL_SIZE_DEFAULT ; ++i){
-		float a = ((float)(rand()%10)+1.0)/10.0;
-		ss_signal_1[i] = a;
-    		ss_signal_2[i] = a + 1.0;
-	}
+	//LIGHT SIGNAL
+	//Random value for testing
+	randVal = rand()%100; //0-99
+	//Light signal
+	light_signal[0] = randVal;
 }
 
 

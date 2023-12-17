@@ -356,7 +356,7 @@ body {
 }
 .content {
     padding: 10px;
-    max-width: 600px; /* //!!! */
+    max-width: 600px;
     margin: 0 auto;
 }
 .card {
