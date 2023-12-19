@@ -6,8 +6,10 @@
 #include <time.h>
 
 #include "main.h"
-
 #include "version.h"
+
+
+#include "test.h"
 
 extern "C" {
     #include "rpApp.h"
@@ -47,6 +49,8 @@ int rp_app_init(void)
 	ss_int_p.SendValue(100);
 	ss_string_p.Set("TEST");
 
+	blinkInit();
+
 	return 0;
 }
 
@@ -54,6 +58,8 @@ int rp_app_init(void)
 //Application exit
 int rp_app_exit(void)
 {
+	blinkRelease();
+
 	return 0;
 }
 
@@ -75,6 +81,8 @@ int rp_get_signals(float ***s, int *sig_num, int *sig_len)
     return 0;
 }
 
+int cnt = 0;
+
 //Update signals
 void UpdateSignals(void)
 {
@@ -87,9 +95,13 @@ void UpdateSignals(void)
 
 	//LIGHT SIGNAL
 	//Random value for testing
-	randVal = rand()%100; //0-99
+	randVal = cnt%8; //rant()%100; //0-99
 	//Light signal
 	light_signal[0] = randVal;
+
+	//Blink
+	blink(cnt%8, (cnt%16)/8);
+	cnt++;
 }
 
 
