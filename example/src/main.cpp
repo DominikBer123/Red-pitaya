@@ -11,6 +11,7 @@
 
 #include "test.h"
 #include "lightning.h"
+#include "i2c.h"
 
 extern "C" {
     #include "rpApp.h"
@@ -53,6 +54,8 @@ int rp_app_init(void)
 	blinkInit();
 
 	initUart();
+
+	initI2c();
 
 	return 0;
 }
@@ -109,7 +112,8 @@ void UpdateSignals(void)
 
 
 	//LIGHT SIGNAL
-	uint8_t light = 0; //TODO
+	int light = readLux();
+	light_signal[0] = light;
 
 	//Blink
 	blink(cnt%8, (cnt%16)/8);

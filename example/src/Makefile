@@ -5,7 +5,7 @@ RM = rm
 PROJECT_ROOT = ../..
 
 CXXSOURCES = main.cpp
-CSOURCES = test.c lightning.c
+CSOURCES = test.c lightning.c i2c.c
 
 INCLUDE = -I$(INSTALL_DIR)/include
 INCLUDE += -I$(INSTALL_DIR)/include/api2
