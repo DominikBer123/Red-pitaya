@@ -10,6 +10,7 @@
 
 
 #include "test.h"
+#include "lightning.h"
 
 extern "C" {
     #include "rpApp.h"
@@ -51,6 +52,8 @@ int rp_app_init(void)
 
 	blinkInit();
 
+	initUart();
+
 	return 0;
 }
 
@@ -87,17 +90,26 @@ int cnt = 0;
 void UpdateSignals(void)
 {
 
-	//DISTANCE SIGNAL
-	//Random value for testing
+	
+	/* //Random value for testing
 	int randVal = rand()%100; //0-99
 	//Distance signal
 	distance_signal[0] = randVal;
 
-	//LIGHT SIGNAL
+	
 	//Random value for testing
 	randVal = cnt%8; //rant()%100; //0-99
 	//Light signal
-	light_signal[0] = randVal;
+	light_signal[0] = randVal; */
+
+	// Aquire data from sensors
+	//DISTANCE SIGNAL
+	uint8_t distance = readDistance();
+	distance_signal[0] = distance;
+
+
+	//LIGHT SIGNAL
+	uint8_t light = 0; //TODO
 
 	//Blink
 	blink(cnt%8, (cnt%16)/8);
