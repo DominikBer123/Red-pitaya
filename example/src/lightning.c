@@ -32,7 +32,7 @@ void initUart()
   res = rp_UartSetSettings(); // apply settings to uart
   printf("Set settings: %d\n",res);
 
-  // GPIO init
+  // GPIO init -> REQUEST LINE
   if (rp_Init() != RP_OK)
   {
     fprintf(stderr, "Red Pitaya API init failed!\n");

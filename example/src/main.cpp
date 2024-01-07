@@ -57,6 +57,14 @@ int rp_app_init(void)
 
 	initI2c();
 
+	// GPIO init -> RELE
+  if (rp_Init() != RP_OK)
+  {
+    fprintf(stderr, "Red Pitaya API init failed!\n");
+    return EXIT_FAILURE;
+  }
+  rp_DpinSetDirection (RP_DIO2_P, RP_OUT);
+
 	return 0;
 }
 
@@ -98,9 +106,6 @@ void UpdateSignals(void)
 	int randVal = rand()%100; //0-99
 	//Distance signal
 	distance_signal[0] = randVal;
-
-	
-	//Random value for testing
 	randVal = cnt%8; //rant()%100; //0-99
 	//Light signal
 	light_signal[0] = randVal; */
@@ -114,6 +119,18 @@ void UpdateSignals(void)
 	//LIGHT SIGNAL
 	int light = readLux();
 	light_signal[0] = light;
+
+
+	// Turn on LED if distance is less than 20km
+	if(distance < 20)
+	{
+		rp_DpinSetState(RP_DIO2_P, RP_LOW);
+	}
+	else
+	{
+		rp_DpinSetState(RP_DIO2_P, RP_HIGH);
+	}
+
 
 	//Blink
 	blink(cnt%8, (cnt%16)/8);
