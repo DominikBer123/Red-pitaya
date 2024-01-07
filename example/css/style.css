@@ -137,11 +137,13 @@ body {
 }
 .float_right{
     float: right;
-    margin-right:8%;
+    margin-right: 5%;
+    padding: 0px;
 }
 .float_left{
     float: left;
-    margin-left:8%;
+    margin-left: 5%;
+    padding: 0px;
 }
 
 .card {
@@ -182,3 +184,19 @@ body {
     cursor: pointer;
 }
 
+.footer {
+    position: relative;
+    left: 0;
+    bottom: 0;
+    text-align: center;
+    padding: 5px;
+    padding-bottom: 30px;
+    margin-top: 10px;
+}
+
+.ft_text {
+    font-size: 1.2rem;
+    color: var(--gray_text);
+    font-weight: bold;
+    margin: 1px;
+}

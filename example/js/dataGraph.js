@@ -19,6 +19,9 @@ var xAxisRange = 120*1000; //ms = X * 1000 ms = X s
 // Test mode -> Chart data will be generated randomly instead of getting data from the hardware
 const TEST_MODE = false;
 
+
+var prevTime = 0;
+
 /*------------------------------ NEW DATA (periodical)--------------------------------------------*/
 function getNewData()
 {
@@ -57,13 +60,14 @@ function getNewChartData(chartNum) {
 // Transform date to hh:mm:ss format
 function generateMinuteWiseTimeSeries(baseval, count) {
   var i = 0;
+  var base = baseval;
   var series = [];
   while (i < count) {
-    var x = baseval;
+    var x = base;
     x += 3600000; // Add 1 hour for UTC+1 (3600000 ms)
     var y = i;
     series.push([x, y]);
-    baseval += updateXAxis; //300000;
+    base += updateXAxis;
     i++;
   }
   return series;
@@ -232,6 +236,12 @@ window.setInterval(function () {
   else t = 1;
   i++;
   //console.log("i: " + i + "   t: " + t);
+
+  //get current time
+  var x = new Date().getTime();
+  var y = x - prevTime;
+  console.log("time diff: " + y);
+  prevTime = x;
 
   chartLine1.updateSeries([
   {
