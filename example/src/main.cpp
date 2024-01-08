@@ -53,7 +53,7 @@ int rp_app_init(void)
 
 	blinkInit();
 
-	initUart();
+	initLightning();
 
 	initI2c();
 
@@ -122,7 +122,7 @@ void UpdateSignals(void)
 
 
 	// Turn on LED if distance is less than 20km
-	if(distance < 20)
+	if(distance < 20 || light > 10000)
 	{
 		rp_DpinSetState(RP_DIO2_P, RP_LOW);
 	}

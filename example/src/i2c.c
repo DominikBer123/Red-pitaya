@@ -27,7 +27,7 @@ int readLux()
     rp_I2C_IOCTL_ReadBuffer((uint8_t *)rb,2);
 	int lux_value = 0;
   // for mode 0001_0000 divide with 1.2
-	lux_value = ((rb[1]<<8) | rb[0]) * 10 / 12;
+	lux_value = ((rb[0]<<8) | rb[1]) * 10 / 12;
   
   return lux_value;
 }

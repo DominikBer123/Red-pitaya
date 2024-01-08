@@ -12,7 +12,7 @@ extern "C" {
 
 
 //Function prototype
-void initUart();
+void initLightning();
 uint8_t readDistance();
 
 
