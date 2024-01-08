@@ -222,6 +222,8 @@ window.onload = function() {
 //Update chart data periodically
 window.setInterval(function () {
   //Set all data previous data that apex chart creates to 0
+  var currTime = new Date().getTime();
+  var timeDiff = 0;
   if(i == 0)
   {
     for(k = 0; k < 6; k++)
@@ -229,7 +231,14 @@ window.setInterval(function () {
       chartLine1.w.config.series[0].data[k][1] = 0;
       chartLine2.w.config.series[0].data[k][1] = 0;
     }
+
+    timeDiff = updateXAxis;
   }
+  else
+  {
+    timeDiff = currTime - prevTime;
+  }
+  prevTime = currTime;
 
   //Slice out old data 
   if(i < xAxisRange/updateInterval) t = 0;
@@ -237,17 +246,20 @@ window.setInterval(function () {
   i++;
   //console.log("i: " + i + "   t: " + t);
 
-  //get current time
-  var x = new Date().getTime();
-  var y = x - prevTime;
-  console.log("time diff: " + y);
-  prevTime = x;
+
+  console.log("time diff: " + timeDiff);
+
+
+  //size of data array
+  var lenght = chartLine1.w.config.series[0].data.length;
+
+  console.log("data array size: " + lenght + "   t: " + t);
 
   chartLine1.updateSeries([
   {
     data: [
       ...chartLine1.w.config.series[0].data.slice(t),
-      [chartLine1.w.globals.maxX + updateXAxis, getNewChartData(1)]
+      [chartLine1.w.globals.maxX + timeDiff, getNewChartData(1)]
     ]
   }
   ]);
@@ -256,7 +268,7 @@ window.setInterval(function () {
   {
     data: [
       ...chartLine2.w.config.series[0].data.slice(t),
-      [chartLine2.w.globals.maxX + updateXAxis, getNewChartData(2)]
+      [chartLine2.w.globals.maxX + timeDiff, getNewChartData(2)]
     ]
   }
   ]);
